@@ -1,6 +1,6 @@
 # LeWork Desktop CI
 
-Open **Actions → LeWork Desktop Build → Run workflow**. The optional **Verify GitHub runner availability without building** mode checks the standard Ubuntu, Windows and macOS runners. It needs no Secrets.
+Open **Actions → LeWork Desktop Build → Run workflow**. Use the separate **Desktop Runner Check** workflow to check Ubuntu, Windows and macOS runner availability. The optional runner-check switch on the build form calls the same workflow for compatibility. It needs no Secrets.
 
 For a desktop build, configure the following in **Settings → Secrets and variables → Actions** first.
 
