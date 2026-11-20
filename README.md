@@ -1,6 +1,6 @@
 # LeWork Desktop CI
 
-Open **Actions → LeWork Desktop Build → Run workflow**. Use the separate **Desktop Runner Check** workflow to check Ubuntu, Windows and macOS runner availability. The optional runner-check switch on the build form calls the same workflow for compatibility. It needs no Secrets.
+Open [LeWork Desktop Build](https://github.com/insmtx/lework-client-ci/actions/workflows/desktop-package.yml) → **Run workflow**. Use the separate **Desktop Runner Check** workflow to check Ubuntu, Windows and macOS runner availability. The optional runner-check switch on the build form calls the same workflow for compatibility. It needs no Secrets.
 
 For a desktop build, configure the following in **Settings → Secrets and variables → Actions** first.
 
@@ -10,11 +10,10 @@ For a desktop build, configure the following in **Settings → Secrets and varia
 | `LEWORK_SOURCE_USERNAME`, `LEWORK_SOURCE_TOKEN` | Read-only repository credentials |
 | `LEWORK_SOURCE_SHA` | Full lowercase SHA of the source commit to build |
 | `LEWORK_UPDATE_BASE_URL`, `LEWORK_LEGACY_UPDATE_BASE_URL` | Current and legacy standard update URLs ending in `/releases/latest` |
-| `LEWORK_CUSTOMER_MODE` | Edition key expected by the private source when building the customer edition |
 | `MAC_CERTS`, `MAC_CERTS_PASSWORD` | Base64 Developer ID PKCS#12 bundle and its password |
 | `APPLE_API_KEY_P8_BASE64`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER` | App Store Connect notarization credentials |
 
-Run from `main`. Choose the platform, edition and version. The default build verifies packages without saving them. For a release build, check **Save verified packages to private release staging**. Runner checks skip packaging. A customer build rejects a standard or unknown edition key.
+Run from `main`. Choose the platform, edition (`customer_mode=standard` or `shanjian`) and version. The default build verifies packages without saving them. For a release build, check **Save verified packages to private release staging**. Runner checks skip packaging. Existing scripts calling `desktop-build.yml` with `customer` are forwarded as `shanjian`.
 
 ### Release handoff
 
