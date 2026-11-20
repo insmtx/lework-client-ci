@@ -45,6 +45,9 @@ for (const url of [old, target]) {
     throw new Error('Both update base URLs must end in /releases/latest')
   }
 }
+if (process.env.SELECTED_EDITION === 'customer' && mode === 'standard') throw new Error('Customer selection resolved to standard')
+const catalog = JSON.parse(readFileSync('tooling/customer-apps/catalog.json', 'utf8')).customers
+if (!Object.hasOwn(catalog, mode)) throw new Error('Selected edition is absent from the application catalog')
 if (mode !== 'standard') {
   const config = readFileSync('apps/desktop/electron.vite.config.ts', 'utf8')
   const preload = readFileSync('apps/desktop/src/preload/studio.ts', 'utf8')
