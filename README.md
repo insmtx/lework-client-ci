@@ -17,6 +17,18 @@ Run from `main`. Choose the platform, edition (`customer_mode=standard` or `shan
 
 ### Release handoff
 
-Configure repository variables `LEWORK_STAGING_BUCKET` and `LEWORK_STAGING_ENDPOINT` (HTTPS OSS endpoint). Use the existing release bucket and a private prefix, `ci-staging/desktop/`. Configure `LEWORK_STAGING_KEY_ID` and `LEWORK_STAGING_KEY_SECRET` as Secrets for an identity limited to putting private objects under that prefix. The private publisher needs read access there. Configure expiry on the staging prefix to match your retention period.
+Configure repository variables `LEWORK_STAGING_BUCKET` and `LEWORK_STAGING_ENDPOINT` (HTTPS OSS endpoint). Use the existing release bucket and a private prefix, `ci-staging/desktop/`. Configure `LEWORK_STAGING_KEY_ID` and `LEWORK_STAGING_KEY_SECRET` as Secrets for an identity limited to putting private objects under that prefix. The release identity needs read access there. Configure expiry on the staging prefix to match your retention period.
 
-Each platform uploads its verified packages, updater metadata and a SHA-256 receipt under the run ID and attempt. The receipt is written last. An anonymous probe must receive HTTP 403 before payload upload. Private build details are suppressed in public Actions logs. The private publisher consumes the run ID; choose a dry run there first. Publication of installer downloads and update manifests is a separate operation.
+Each platform uploads its verified packages, updater metadata and a SHA-256 receipt under the run ID and attempt. The receipt is written last. An anonymous probe must receive HTTP 403 before payload upload. Private build details are suppressed in public Actions logs. Use the successful run ID for the release dry run. The private publisher remains available for the standard edition.
+
+### Publish a staged Shanjian build
+
+Use **Publish Shanjian desktop to OSS** on `main`. Enter the run ID of a successful
+`Desktop shanjian v<version> all staged` build and the same version. Run once
+with **dry run** selected, then use the same inputs with dry run cleared to publish.
+Both operations use the `shanjian-release` GitHub environment restricted to the
+`main` branch. Configure environment secrets `OSS_ACCESS_KEY_ID` and
+`OSS_ACCESS_KEY_SECRET` for a dedicated release identity with object read access
+under `ci-staging/desktop/` and object read/write access under
+`electron/lework/releases/shanjian/` in the configured staging bucket.
+The build's staging credentials retain their existing scope.
