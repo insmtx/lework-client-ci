@@ -247,7 +247,7 @@ jobs:
           bash ../pipeline/scripts/run-private-step.sh xcrun stapler validate "$packaged"
           cmp "$app/Contents/Resources/app.asar" "$packaged/Contents/Resources/app.asar"
           cmp "$app/Contents/Resources/app-update.yml" "$packaged/Contents/Resources/app-update.yml"
-          lipo -verify_arch ${{ matrix.arch == 'arm64' && 'arm64' || 'x86_64' }} "$packaged/Contents/MacOS/LeWork"
+          lipo "$packaged/Contents/MacOS/LeWork" -verify_arch ${{ matrix.arch == 'arm64' && 'arm64' || 'x86_64' }}
           test -s apps/desktop/dist/latest-mac.yml
 
 
